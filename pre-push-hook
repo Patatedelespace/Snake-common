@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Configuration
+SUBMODULE_PATH="src/common"
+
+echo "Checking for changes in common submodule..."
+
+# Vérifier si des changements existent dans le sous-module
+cd "$SUBMODULE_PATH" || exit 1
+if git status --porcelain | grep -q '^.M'; then
+    echo "Changes detected in submodule. Committing..."
+    
+    # Commit les changements dans le sous-module
+    git add .
+    git commit -m "Auto-commit from parent repository"
+    git push
+    
+    # Retourner au repository parent
+    cd - || exit 1
+    
+    # Mettre à jour la référence du sous-module dans le repository parent
+    git add "$SUBMODULE_PATH"
+    git commit -m "Update submodule reference"
+    
+    echo "Submodule changes have been committed and pushed."
+else
+    echo "No changes in submodule."
+    cd - || exit 1
+fi
+
+exit 0
