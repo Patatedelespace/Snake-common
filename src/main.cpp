@@ -8,13 +8,15 @@
 
 void player_process(Player& player);
 
-std::map<std::string, Sound> musics_list = {
-    {"main music", LoadSound(ASSETS_PATH"main_bg_music.mp3")}
+std::map<std::string, Music> musics_list = {
+    {"main music", LoadMusicStream(ASSETS_PATH"main_bg_music.mp3")}
 };
 
 int main()
 {
     InitAudioDevice();
+
+    Music music;
 
     InitWindow(GAMESTATE::SCREEN_WIDTH, GAMESTATE::SCREEN_HEIGHT, "Snake (en faite c'était plus fun de faire un platformer) (tkt frère pour les copyrights)");
     SetWindowIcon(LoadImage(ASSETS_PATH"Icon.png"));
@@ -28,9 +30,13 @@ int main()
 
     GAMESTATE::PLAYING = true;
 
-    PlaySound(musics_list[std::string("main music")]);
+    // music = musics_list[std::string("main music")];
 
-    SetMasterVolume(0.1);
+    // music.loopCount = 3;
+
+    PlayMusicStream(/*music*/  musics_list[std::string("main music")]);
+
+    SetMasterVolume(1);
 
     while (!WindowShouldClose()) {
 
