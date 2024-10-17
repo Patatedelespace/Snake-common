@@ -14,6 +14,8 @@ std::map<std::string, Music> musics_list = {
 
 int main()
 {
+    std::cout << "Hello, world!" << std::endl;
+
     InitAudioDevice();
 
     Music music;
