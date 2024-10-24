@@ -49,6 +49,16 @@ int main()
 
         player_process(player);
 
+        if (IsKeyPressed(KEY_S)) {
+            music.stop();
+        }
+        if (IsKeyPressed(KEY_P)) {
+            music.play();
+        }
+        if (IsKeyPressed(KEY_R)) {
+            music.restart();
+        }
+
         BeginDrawing();
 
         ClearBackground(BLUE);

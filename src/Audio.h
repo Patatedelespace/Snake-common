@@ -1,8 +1,6 @@
 #pragma once
 
-namespace rl {
-    #include <raylib.h>
-}
+#include <raylib.h>
 
 #include <cstdarg>
 #include "Player.h"
@@ -10,6 +8,7 @@ namespace rl {
 #include <iostream>
 #include <map>
 #include <thread>
+#include <functional>
 
 #ifndef ASSETS_PATH
 #define ASSETS_PATH
@@ -20,7 +19,7 @@ namespace Audio {
 
 struct Sound {
     std::string title;
-    rl::Sound rl_sound;
+    ::Sound rl_sound;
 };
 
 enum SoundState {
@@ -28,7 +27,7 @@ enum SoundState {
     STARTED = 1
 };
 
-std::vector<Sound> musics_list = {
+inline std::vector<Sound> musics_list = {
     {"main music", LoadSound(ASSETS_PATH"main_bg_music.mp3")}
 };
 
@@ -52,7 +51,7 @@ public:
     //getters functions
     Sound getCurrentSound();
     std::string getCurrentSoundTitle();
-    rl::Sound getCurrentSoundRLSound();
+    ::Sound getCurrentSoundRLSound();
     bool isLooping();
 
     //setters functions
@@ -62,6 +61,7 @@ public:
     //player functions
     void play();
     void stop();
+    void restart();
     bool isPlaying();
 
     //process function

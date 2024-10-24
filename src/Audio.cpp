@@ -7,13 +7,13 @@ Audio::Sound Audio::getMusic(std::string title) {
         }
     }
 
-    return {"not found", rl::LoadSound("")};
+    return {"not found", LoadSound("")};
 }
 
 //core functions
 Audio::SoundPlayer::SoundPlayer() {
     this->thread_must_run = true;
-    this->player_process_thread = std::thread(Audio::SoundPlayer::player_process);
+    this->player_process_thread = std::thread(std::bind(&Audio::SoundPlayer::player_process, this));
 }
 
 Audio::SoundPlayer::~SoundPlayer() {
@@ -31,7 +31,7 @@ std::string Audio::SoundPlayer::getCurrentSoundTitle() {
     return this->current_sound.title;
 }
 
-rl::Sound Audio::SoundPlayer::getCurrentSoundRLSound() {
+::Sound Audio::SoundPlayer::getCurrentSoundRLSound() {
     return this->current_sound.rl_sound;
 }
 
@@ -52,13 +52,29 @@ void Audio::SoundPlayer::setLooping(bool looping) {
 
 //player functions
 void Audio::SoundPlayer::play() {
-    rl::PlaySound(this->current_sound.rl_sound);
+    if (!IsSoundPlaying(this->current_sound.rl_sound)) {
+        PlaySound(this->current_sound.rl_sound);
+    }
     this->sound_state = STARTED;
 }
 
 void Audio::SoundPlayer::stop() {
-    rl::StopSound(this->current_sound.rl_sound);
+    if (IsSoundPlaying(this->current_sound.rl_sound)) {
+        StopSound(this->current_sound.rl_sound);
+    }
     this->sound_state = STOPPED;
+}
+
+void Audio::SoundPlayer::restart() {
+    if (IsSoundPlaying(this->current_sound.rl_sound)) {
+        StopSound(this->current_sound.rl_sound);
+        PlaySound(this->current_sound.rl_sound);
+    }
+    else {
+        PlaySound(this->current_sound.rl_sound);
+    }
+    
+    this->sound_state = STARTED;
 }
 
 bool Audio::SoundPlayer::isPlaying() {
@@ -69,11 +85,11 @@ bool Audio::SoundPlayer::isPlaying() {
 //process function
 void Audio::SoundPlayer::player_process() {
     while (this->thread_must_run) {
-        this->playing = rl::IsSoundPlaying(this->current_sound.rl_sound);
+        this->playing = IsSoundPlaying(this->current_sound.rl_sound);
 
-        if (!rl::IsSoundPlaying(this->current_sound.rl_sound) && this->sound_state == STARTED) {
+        if (!IsSoundPlaying(this->current_sound.rl_sound) && this->sound_state == STARTED) {
             if (this->looping) {
-                rl::PlaySound(this->current_sound.rl_sound);
+                PlaySound(this->current_sound.rl_sound);
             }
             else {
                 this->sound_state = STOPPED;
