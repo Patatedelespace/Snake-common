@@ -5,20 +5,23 @@
 #include "GAMESTATE.h"
 #include <iostream>
 #include <map>
+#include "Audio.h"
+
+#ifndef ASSETS_PATH
+#define ASSETS_PATH
+#endif
+
 
 void player_process(Player& player);
 
-std::map<std::string, Music> musics_list = {
-    {"main music", LoadMusicStream(ASSETS_PATH"main_bg_music.mp3")}
-};
+Audio::SoundPlayer music;
+
 
 int main()
 {
     std::cout << "Hello, world!" << std::endl;
 
     InitAudioDevice();
-
-    Music music;
 
     InitWindow(GAMESTATE::SCREEN_WIDTH, GAMESTATE::SCREEN_HEIGHT, "Snake (en faite c'était plus fun de faire un platformer) (tkt frère pour les copyrights)");
     SetWindowIcon(LoadImage(ASSETS_PATH"Icon.png"));
@@ -32,15 +35,17 @@ int main()
 
     GAMESTATE::PLAYING = true;
 
-    // music = musics_list[std::string("main music")];git 
+    SetMasterVolume(0.25);
 
-    // music.loopCount = 3;
+    music.setCurrentSound(Audio::getMusic("main music"));
 
-    PlayMusicStream(/*music*/  musics_list[std::string("main music")]);
+    music.setLooping(true);
 
-    SetMasterVolume(1);
+    music.play();
 
     while (!WindowShouldClose()) {
+
+        // !IsSoundPlaying ? PlaySound(music) : nothing();
 
         player_process(player);
 
