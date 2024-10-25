@@ -8,4 +8,12 @@
 //     return (value <= min) ? min : ((value >= max) ? max : value);
 // }
 
-double crop(double min, double max, double value);
+namespace utility {
+
+    double crop(double min, double max, double value);
+
+    double wheel(double min, double max, double value);
+
+    double absolute(double value);
+
+}

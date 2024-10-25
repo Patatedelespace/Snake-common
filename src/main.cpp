@@ -77,6 +77,8 @@ int main()
         DrawLineEx({player.getCollisionRectangle().x + player.getCollisionRectangle().width, player.getCollisionRectangle().y}, {player.getCollisionRectangle().x + player.getCollisionRectangle().width, player.getCollisionRectangle().y + player.getCollisionRectangle().height}, 1, RED);
 
         EndDrawing();
+
+        std::cout << utility::wheel(0, 50, 55) << std::endl;
     }
 
     GAMESTATE::PLAYING = false;
