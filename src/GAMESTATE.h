@@ -16,9 +16,19 @@ namespace GAMESTATE {
 
     inline float gravity = 0.5;
 
+    inline float y = SCREEN_HEIGHT - 150;
+    inline float x = 80;
+
+    //max space to the left = 515
+    //max space to the right = 515
+
+    //platform width = 150
+    //platform height = 15
+
     inline std::vector<Rectangle> dirt_floors = {
-      {0, SCREEN_HEIGHT - 100, SCREEN_WIDTH, 10},
-      {751, SCREEN_HEIGHT - 250, 10, 50}
+      {0, SCREEN_HEIGHT - 10, SCREEN_WIDTH, 10},
+      {x, y, 150, 15},
+      {x + 520, y - 150, 150, 15}
     };
 
     inline std::string current_music_track = "main music";

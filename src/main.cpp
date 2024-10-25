@@ -6,6 +6,7 @@
 #include <iostream>
 #include <map>
 #include "Audio.h"
+#include <thread>
 
 #ifndef ASSETS_PATH
 #define ASSETS_PATH
@@ -13,6 +14,8 @@
 
 
 void player_process(Player& player);
+
+void platform_generation_process();
 
 Audio::SoundPlayer music;
 
@@ -42,6 +45,8 @@ int main()
     music.setLooping(true);
 
     music.play();
+
+    std::thread platform_generation_thread = std::thread(platform_generation_process);
 
     while (!WindowShouldClose()) {
 
@@ -139,4 +144,9 @@ void player_process(Player& player) {
     player.setRealPosition((Vector2) {player.getPosition().x - player.getRectangle().width / 2, player.getPosition().y - player.getRectangle().width /2});
 
     player.setCollisionRectangle((Rectangle){player.getPosition().x, player.getPosition().y, player.getRectangle().width, player.getRectangle().height});
+}
+
+
+void platform_generation_process() {
+    
 }
