@@ -156,7 +156,7 @@ void platform_generation_process() {
     std::random_device rd;
     std::uniform_real_distribution<double> x_spacing_dist(-515.f, 515.f);
     double max_height = GAMESTATE::SCREEN_HEIGHT;
-    uint last_platform = 1;
+    unsigned int last_platform = 1;
     double y_spacing = 150.f;
 
     while (GAMESTATE::PLAYING) {
