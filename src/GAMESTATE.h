@@ -26,9 +26,8 @@ namespace GAMESTATE {
     //platform height = 15
 
     inline std::vector<Rectangle> dirt_floors = {
-      {0, SCREEN_HEIGHT - 10, SCREEN_WIDTH, 10},
-      {x, y, 150, 15},
-      {x + 520, y - 150, 150, 15}
+      {0, SCREEN_HEIGHT - 10, SCREEN_WIDTH, 10}, // floor
+      {80, SCREEN_HEIGHT - 150, 150, 15}
     };
 
     inline std::string current_music_track = "main music";

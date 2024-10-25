@@ -7,6 +7,7 @@
 #include <map>
 #include "Audio.h"
 #include <thread>
+#include <random>
 
 #ifndef ASSETS_PATH
 #define ASSETS_PATH
@@ -83,6 +84,8 @@ int main()
 
     GAMESTATE::PLAYING = false;
 
+    platform_generation_thread.join();
+
     UnloadTexture(player);
 
     CloseWindow();
@@ -150,5 +153,14 @@ void player_process(Player& player) {
 
 
 void platform_generation_process() {
+    std::random_device rd;
+    std::uniform_real_distribution<double> x_spacing_dist(-515.f, 515.f);
+    double max_height = GAMESTATE::SCREEN_HEIGHT;
+    uint last_platform = 1;
+    double y_spacing = 150.f;
+
+    while (GAMESTATE::PLAYING) {
+        
+    }
     
 }
