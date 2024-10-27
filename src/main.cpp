@@ -1,5 +1,6 @@
 #include <raylib.h>
 
+#include "window.h"
 #include <cstdarg>
 #include "Player.h"
 #include "GAMESTATE.h"
@@ -14,15 +15,16 @@
 #endif
 
 
-void player_process(Player& player);
+void player_process();
 
 void platform_generation_process();
 
 Audio::SoundPlayer music;
 
+Player player;
 
-int main()
-{
+
+int main() {
     std::cout << "Hello, world!" << std::endl;
 
     InitAudioDevice();
@@ -31,7 +33,7 @@ int main()
     SetWindowIcon(LoadImage(ASSETS_PATH"Icon.png"));
     SetTargetFPS(60);
 
-    Player player = Player(LoadTexture(ASSETS_PATH"Player.png"));
+    player = Player(LoadTexture(ASSETS_PATH"Player.png"));
 
     float player_scale_divisor = 16;
 
@@ -53,7 +55,7 @@ int main()
 
         // !IsSoundPlaying ? PlaySound(music) : nothing();
 
-        player_process(player);
+        player_process();
 
         if (IsKeyPressed(KEY_S)) {
             music.stop();
@@ -71,7 +73,7 @@ int main()
 
         DrawTextureRec(player.getSprite(), player.getRectangle(), player.getPosition(), WHITE);
 
-        for (Rectangle i : GAMESTATE::dirt_floors) {
+        for (Rectangle i : GAMESTATE::platforms) {
             DrawRectangle(i.x, i.y, i.width, i.height, GREEN);
         }
 
@@ -92,7 +94,7 @@ int main()
     return 0;
 }
 
-void player_process(Player& player) {
+void player_process() {
 
     float player_x_movement;
 
@@ -153,14 +155,39 @@ void player_process(Player& player) {
 
 
 void platform_generation_process() {
+
+    int timer = 2000;
+
     std::random_device rd;
     std::uniform_real_distribution<double> x_spacing_dist(-515.f, 515.f);
-    double max_height = GAMESTATE::SCREEN_HEIGHT;
-    unsigned int last_platform = 1;
-    double y_spacing = 150.f;
+    double max_height = -600;
+    unsigned int last_platform_index = 1;
+    double y_spacing = 150;
+    double width = 150;
+    double height = 15;
+
+    Rectangle last_platform;
+    double x_pos;
+    double y_pos;
 
     while (GAMESTATE::PLAYING) {
-        
+        if (timer <= 0) {
+            last_platform = GAMESTATE::platforms[last_platform_index];
+
+            x_pos = last_platform.x + x_spacing_dist(rd);
+            x_pos = utility::wheel(0, GAMESTATE::SCREEN_WIDTH, x_pos);
+            y_pos = last_platform.y - y_spacing;
+            if (y_pos >= max_height) {
+                GAMESTATE::platforms.push_back(Rectangle(x_pos, y_pos, width, height));
+
+                last_platform_index++;
+            }
+
+            timer = 2000;
+        }
+        else {
+            timer--;
+        }
     }
     
 }

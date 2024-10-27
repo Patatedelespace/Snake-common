@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "GAMESTATE.h"
+#include "window.h"
 #include <iostream>
 
 // Core functions
@@ -129,7 +130,7 @@ void Player::move() {
 
     this->collision_rectangle.x = utility::wheel(0, GAMESTATE::SCREEN_WIDTH, this->collision_rectangle.x);
 
-    for (Rectangle i : GAMESTATE::dirt_floors) {
+    for (Rectangle i : GAMESTATE::platforms) {
         // if ( ( ( (this->position.x > i.x) && (this->position.x < i.width) ) || ( (this->position.x + this->rectangle.width > i.x) && (this->position.x + this->rectangle.width < i.width) ) ) && ( ( (this->position.y > i.y)/*under top line*/ && (this->position.y < i.height)/*over bottom line*/ )/*with y*/ || ( (this->position.y + this->rectangle.height > i.y)/*under top line*/ && (this->position.y + this->rectangle.height < i.height)/*over bottom line*/ )/*with height*/  ) ) {
         //     this->position.x = previous_position.x;
         // }
@@ -155,7 +156,7 @@ void Player::move() {
 
     bool y_collision_bottom = false;
 
-    for (Rectangle i : GAMESTATE::dirt_floors) {
+    for (Rectangle i : GAMESTATE::platforms) {
         // if ( ( ( (this->position.x > i.x) && (this->position.x < i.width) ) || ( (this->position.x + this->rectangle.width > i.x) && (this->position.x + this->rectangle.width < i.width) ) ) && ( ( (this->position.y > i.y)/*under top line*/ && (this->position.y < i.height)/*over bottom line*/ )/*with y*/ || ( (this->position.y + this->rectangle.height > i.y)/*under top line*/ && (this->position.y + this->rectangle.height < i.height)/*over bottom line*/ )/*with height*/  ) ) {
         //     this->position.x = previous_position.x;
         // }
@@ -220,6 +221,8 @@ void Player::move() {
     // Rectangle floor = GAMESTATE::CollisionObjects[0];
 
     std::cout << "Position : {x : " << this->position.x << "; y : " << this->position.y << "}, Velocity : {x : " << this->velocity.x << "; y : " << this->velocity.y << "}\nPlayer size : {width : " << this->rectangle.width << "; height : " << this->rectangle.height << "}" << std::endl;
+
+    window::update_window_geometry(*this);
 }
 
 

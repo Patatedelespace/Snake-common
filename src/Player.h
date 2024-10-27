@@ -41,6 +41,8 @@ public:
         this->collision_rectangle.height = this->sprite.height;
     }
 
+    Player() {}
+
     ~Player() {}
 
     // Operators functions

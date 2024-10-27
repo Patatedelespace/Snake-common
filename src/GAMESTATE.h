@@ -25,7 +25,7 @@ namespace GAMESTATE {
     //platform width = 150
     //platform height = 15
 
-    inline std::vector<Rectangle> dirt_floors = {
+    inline std::vector<Rectangle> platforms = {
       {0, SCREEN_HEIGHT - 10, SCREEN_WIDTH, 10}, // floor
       {80, SCREEN_HEIGHT - 150, 150, 15}
     };
