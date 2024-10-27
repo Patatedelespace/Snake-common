@@ -2,6 +2,8 @@
 
 #include <raylib.h>
 
+#include <iostream>
+
 #include "GAMESTATE.h"
 #include "Player.h"
 
