@@ -29,9 +29,12 @@ int main() {
 
     InitAudioDevice();
 
-    InitWindow(GAMESTATE::SCREEN_WIDTH, GAMESTATE::SCREEN_HEIGHT, "Snake (en faite c'était plus fun de faire un platformer) (tkt frère pour les copyrights)");
+    InitWindow(GAMESTATE::WINDOW_WIDTH, GAMESTATE::WINDOW_HEIGHT, "Snake (en faite c'était plus fun de faire un platformer) (tkt frère pour les copyrights)");
     SetWindowIcon(LoadImage(ASSETS_PATH"Icon.png"));
     SetTargetFPS(60);
+
+    GAMESTATE::SCREEN_WIDTH = GetScreenWidth();
+    GAMESTATE::SCREEN_HEIGHT = GetScreenHeight();
 
     player = Player(LoadTexture(ASSETS_PATH"Player.png"));
 
@@ -156,7 +159,7 @@ void player_process() {
 
 void platform_generation_process() {
 
-    int timer = 2000;
+    long int timer = 200000;
 
     std::random_device rd;
     std::uniform_real_distribution<double> x_spacing_dist(-515.f, 515.f);
@@ -175,7 +178,7 @@ void platform_generation_process() {
             last_platform = GAMESTATE::platforms[last_platform_index];
 
             x_pos = last_platform.x + x_spacing_dist(rd);
-            x_pos = utility::wheel(0, GAMESTATE::SCREEN_WIDTH, x_pos);
+            x_pos = utility::wheel(0, GAMESTATE::WINDOW_WIDTH, x_pos);
             y_pos = last_platform.y - y_spacing;
             if (y_pos >= max_height) {
                 GAMESTATE::platforms.push_back(Rectangle(x_pos, y_pos, width, height));
@@ -183,11 +186,11 @@ void platform_generation_process() {
                 last_platform_index++;
             }
 
-            timer = 2000;
+            timer = 200000;
         }
         else {
             timer--;
         }
     }
-    
+
 }

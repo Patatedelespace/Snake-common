@@ -128,7 +128,7 @@ void Player::move() {
 
     this->collision_rectangle.x += this->velocity.x;
 
-    this->collision_rectangle.x = utility::wheel(0, GAMESTATE::SCREEN_WIDTH, this->collision_rectangle.x);
+    this->collision_rectangle.x = utility::wheel(0, GAMESTATE::WINDOW_WIDTH, this->collision_rectangle.x);
 
     for (Rectangle i : GAMESTATE::platforms) {
         // if ( ( ( (this->position.x > i.x) && (this->position.x < i.width) ) || ( (this->position.x + this->rectangle.width > i.x) && (this->position.x + this->rectangle.width < i.width) ) ) && ( ( (this->position.y > i.y)/*under top line*/ && (this->position.y < i.height)/*over bottom line*/ )/*with y*/ || ( (this->position.y + this->rectangle.height > i.y)/*under top line*/ && (this->position.y + this->rectangle.height < i.height)/*over bottom line*/ )/*with height*/  ) ) {
@@ -197,7 +197,7 @@ void Player::move() {
         case NONE:
             std::cout << "NONE" << std::endl;
             this->position.x += this->velocity.x;
-            this->position.x = utility::wheel(0, GAMESTATE::SCREEN_WIDTH, this->position.x);
+            this->position.x = utility::wheel(0, GAMESTATE::WINDOW_WIDTH, this->position.x);
             this->position.y += this->velocity.y;
             break;
 
@@ -210,7 +210,7 @@ void Player::move() {
             std::cout << "Y" << std::endl;
             this->position.y += bottom_collision_offset;
             this->position.x += velocity.x;
-            this->position.x = utility::wheel(0, GAMESTATE::SCREEN_WIDTH, this->position.x);
+            this->position.x = utility::wheel(0, GAMESTATE::WINDOW_WIDTH, this->position.x);
             break;
 
         case X_AND_Y:

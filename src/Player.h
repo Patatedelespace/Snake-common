@@ -14,7 +14,7 @@ private:
     float speed = 7.5;
     float move_smoothness = 1;
     float jump_strengh = 15;
-    Vector2 position = {GAMESTATE::SCREEN_WIDTH / 2, GAMESTATE::SCREEN_HEIGHT / 2};
+    Vector2 position = {GAMESTATE::WINDOW_WIDTH / 2, GAMESTATE::WINDOW_HEIGHT / 2};
     Vector2 velocity = {0.f, 0.f};
     int direction = 1;
     Vector2 real_position;
@@ -31,7 +31,7 @@ private:
 public:
     // Core functions
     Player(Texture2D sprite) {
-        this->position = (Vector2) {GAMESTATE::SCREEN_WIDTH / 2, GAMESTATE::SCREEN_HEIGHT / 2};
+        this->position = (Vector2) {GAMESTATE::WINDOW_HEIGHT / 2, GAMESTATE::WINDOW_HEIGHT / 2};
         this->sprite = sprite;
         this->rectangle.x = 0; this->rectangle.y = 0;
         this->rectangle.width = this->sprite.width;
