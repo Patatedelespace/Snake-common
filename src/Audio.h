@@ -11,7 +11,7 @@
 #include <functional>
 
 #ifndef ASSETS_PATH
-#define ASSETS_PATH
+#define ASSETS_PATH "${ASSETS_PATH}"
 #endif
 
 
