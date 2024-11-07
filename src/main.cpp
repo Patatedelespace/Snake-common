@@ -10,10 +10,6 @@
 #include <thread>
 #include <random>
 
-#ifndef ASSETS_PATH
-#define ASSETS_PATH
-#endif
-
 
 void player_process();
 
