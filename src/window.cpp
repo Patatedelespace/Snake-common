@@ -2,7 +2,7 @@
 
 void window::update_window_geometry(Player& player) {
 
-    if (player.getPosition().y <= 0 /*&& GAMESTATE::WINDOW_HEIGHT > GetScreenHeight()*/) {
+    if (player.getPosition().y <= 0 /*&& GAMESTATE::WINDOW_HEIGHT < GetScreenHeight()*/) {
         double distance = player.getPosition().y * -1;
         std::cout << "distance : " << distance << ";" << std::endl;
         std::cout << "before : {width : " << GAMESTATE::WINDOW_WIDTH << ", height : " << GAMESTATE::WINDOW_HEIGHT << "};" << std::endl;
@@ -13,6 +13,7 @@ void window::update_window_geometry(Player& player) {
             i.y += distance;
         }
         player.setPositionY(player.getPosition().y + distance);
+        SetWindowPosition(GetWindowPosition().x, GetWindowPosition().y - distance/2);
 
     }
 

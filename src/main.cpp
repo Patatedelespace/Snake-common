@@ -1,6 +1,6 @@
 #include <raylib.h>
 
-#include "window.h"
+// #include "window.h"
 #include <cstdarg>
 #include "Player.h"
 #include "GAMESTATE.h"
@@ -19,6 +19,11 @@ Audio::SoundPlayer music;
 
 Player player;
 
+// Image dirt_image = LoadImage(ASSETS_PATH"Dirt.png");
+
+// Texture2D dirt_texture = LoadTextureFromImage(dirt_image);
+
+Texture2D dirt_texture;
 
 int main() {
     std::cout << "Hello, world!" << std::endl;
@@ -33,6 +38,13 @@ int main() {
     GAMESTATE::SCREEN_HEIGHT = GetScreenHeight();
 
     player = Player(LoadTexture(ASSETS_PATH"Player.png"));
+
+    dirt_texture = LoadTexture(ASSETS_PATH"Dirt.png");
+
+    float dirt_texture_scale_divisor = 15;
+
+    dirt_texture.width /= dirt_texture_scale_divisor;
+    dirt_texture.height /= dirt_texture_scale_divisor;
 
     float player_scale_divisor = 16;
 
@@ -73,8 +85,12 @@ int main() {
         DrawTextureRec(player.getSprite(), player.getRectangle(), player.getPosition(), WHITE);
 
         for (Rectangle i : GAMESTATE::platforms) {
-            DrawRectangle(i.x, i.y, i.width, i.height, GREEN);
+            DrawTextureRec(dirt_texture, {0, 0, i.width, i.height}, {i.x, i.y}, WHITE);
         }
+
+        // Rectangle i = GAMESTATE::platforms[0];
+
+        // DrawTextureRec(dirt_texture, i, {i.x, i.y}, WHITE);
 
         DrawLineEx({player.getCollisionRectangle().x + player.getCollisionRectangle().width, player.getCollisionRectangle().y}, {player.getCollisionRectangle().x + player.getCollisionRectangle().width, player.getCollisionRectangle().y + player.getCollisionRectangle().height}, 1, RED);
 
