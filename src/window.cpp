@@ -1,5 +1,9 @@
 #include "window.h"
 
+#include <iostream>
+
+#include "GAMESTATE.h"
+
 void window::update_window_geometry(Player& player) {
 
     if (player.getPosition().y <= 0 /*&& GAMESTATE::WINDOW_HEIGHT < GetScreenHeight()*/) {
