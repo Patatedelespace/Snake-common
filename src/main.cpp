@@ -5,11 +5,10 @@
 #include "Player.h"
 #include "GAMESTATE.h"
 #include <iostream>
-// #include <map>
+#include <map>
 #include "Audio.h"
 #include <thread>
 #include <random>
-#include "utility.h"
 
 
 void player_process();
@@ -20,16 +19,9 @@ Audio::SoundPlayer music;
 
 Player player;
 
-// Image dirt_image = LoadImage(ASSETS_PATH"Dirt.png");
-
-// Texture2D dirt_texture = LoadTextureFromImage(dirt_image);
-
-Texture2D dirt_texture;
-
 
 int main() {
     std::cout << "Hello, world!" << std::endl;
-
 
     InitAudioDevice();
 
@@ -37,22 +29,10 @@ int main() {
     SetWindowIcon(LoadImage(ASSETS_PATH"Icon.png"));
     SetTargetFPS(60);
 
-    std::cout << "Position : {" << GetWindowPosition().x << "; " << GetWindowPosition().y << "};" << std::endl;
-
-    GAMESTATE::WINDOW_X = GetWindowPosition().x;
-    GAMESTATE::WINDOW_Y = GetWindowPosition().y;
-
     GAMESTATE::SCREEN_WIDTH = GetScreenWidth();
     GAMESTATE::SCREEN_HEIGHT = GetScreenHeight();
 
     player = Player(LoadTexture(ASSETS_PATH"Player.png"));
-
-    dirt_texture = LoadTexture(ASSETS_PATH"Dirt.png");
-
-    float dirt_texture_scale_divisor = 20;
-
-    dirt_texture.width /= dirt_texture_scale_divisor;
-    dirt_texture.height /= dirt_texture_scale_divisor;
 
     float player_scale_divisor = 16;
 
@@ -70,23 +50,25 @@ int main() {
 
     std::thread platform_generation_thread = std::thread(platform_generation_process);
 
-    std::thread window_movment_thread = std::thread(window::window_movment_process);
-
     while (!WindowShouldClose()) {
 
         // !IsSoundPlaying ? PlaySound(music) : nothing();
 
         player_process();
 
-        if (IsKeyPressed(KEY_S) && (IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL))) {
+        if (IsKeyPressed(KEY_S)) {
             music.stop();
         }
-        if (IsKeyPressed(KEY_P) && (IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL))) {
+        if (IsKeyPressed(KEY_P)) {
             music.play();
         }
-        if (IsKeyPressed(KEY_R) && (IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL))) {
+        if (IsKeyPressed(KEY_R)) {
             music.restart();
         }
+
+        Rectangle floor = GAMESTATE::platforms[0];
+
+        //GAMESTATE::platforms[0] = {floor.x, floor.y - 1, floor.width, floor.height};
 
         BeginDrawing();
 
@@ -95,18 +77,10 @@ int main() {
         DrawTextureRec(player.getSprite(), player.getRectangle(), player.getPosition(), WHITE);
 
         for (Rectangle i : GAMESTATE::platforms) {
-            DrawTextureRec(dirt_texture, {0, 0, i.width, i.height}, {i.x, i.y}, WHITE);
+            DrawRectangle(i.x, i.y, i.width, i.height, GREEN);
         }
 
-        Rectangle& i = GAMESTATE::platforms[0];
-
-        i.y -= 1;
-
-        // DrawTextureRec(dirt_texture, i, {i.x, i.y}, WHITE);
-
         DrawLineEx({player.getCollisionRectangle().x + player.getCollisionRectangle().width, player.getCollisionRectangle().y}, {player.getCollisionRectangle().x + player.getCollisionRectangle().width, player.getCollisionRectangle().y + player.getCollisionRectangle().height}, 1, RED);
-
-        DrawFPS(0, 0);
 
         EndDrawing();
 
@@ -116,8 +90,6 @@ int main() {
     GAMESTATE::PLAYING = false;
 
     platform_generation_thread.join();
-
-    window_movment_thread.join();
 
     UnloadTexture(player);
 
@@ -179,7 +151,7 @@ void player_process() {
 
     player.move();
 
-    player.setRealPosition((Vector2){player.getPosition().x - player.getRectangle().width / 2, player.getPosition().y - player.getRectangle().width /2});
+    player.setRealPosition((Vector2) {player.getPosition().x - player.getRectangle().width / 2, player.getPosition().y - player.getRectangle().width /2});
 
     player.setCollisionRectangle((Rectangle){player.getPosition().x, player.getPosition().y, player.getRectangle().width, player.getRectangle().height});
 }
@@ -187,51 +159,38 @@ void player_process() {
 
 void platform_generation_process() {
 
-    long int timer = 200000;
+    int timer = 2000;
 
     std::random_device rd;
     std::uniform_real_distribution<double> x_spacing_dist(-515.f, 515.f);
     double max_height = -600;
     unsigned int last_platform_index = 1;
     double y_spacing = 150;
-    double platform_width = 150;
-    double platform_height = 15;
+    double width = 150;
+    double height = 15;
 
     Rectangle last_platform;
     double x_pos;
     double y_pos;
-    double gap;
-    double x_pos_after_gap;
-    double x_pos_before_gap;
 
     while (GAMESTATE::PLAYING) {
         if (timer <= 0) {
             last_platform = GAMESTATE::platforms[last_platform_index];
 
-            gap = (GAMESTATE::WINDOW_WIDTH - (platform_width * 3)) / 3;
-            x_pos_after_gap = x_pos + gap + platform_width;
-            x_pos_before_gap = x_pos - (gap + platform_width);
-
             x_pos = last_platform.x + x_spacing_dist(rd);
             x_pos = utility::wheel(0, GAMESTATE::WINDOW_WIDTH, x_pos);
-            x_pos_after_gap = utility::wheel(0, GAMESTATE::WINDOW_WIDTH, x_pos_after_gap);
-            x_pos_before_gap = utility::wheel(0, GAMESTATE::WINDOW_WIDTH, x_pos_before_gap);
             y_pos = last_platform.y - y_spacing;
             if (y_pos >= max_height) {
-                GAMESTATE::platforms.push_back(Rectangle(x_pos, y_pos, platform_width, platform_height));
-                GAMESTATE::platforms.push_back(Rectangle(x_pos_after_gap, y_pos, platform_width, platform_height));
-                GAMESTATE::platforms.push_back(Rectangle(x_pos_before_gap, y_pos, platform_width, platform_height));
+                GAMESTATE::platforms.push_back(Rectangle(x_pos, y_pos, width, height));
 
-                last_platform_index += 3;
+                last_platform_index++;
             }
 
-            timer = 200000;
+            timer = 2000;
         }
         else {
             timer--;
         }
-
-        // std::cout << "Timer : " << timer << ";" << std::endl;
     }
 
 }
