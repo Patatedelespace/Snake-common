@@ -13,9 +13,13 @@ namespace GAMESTATE {
 
     inline float WINDOW_WIDTH  = 1200.f;
     inline float WINDOW_HEIGHT = 450.f;
+    inline float WINDOW_X;
+    inline float WINDOW_Y;
 
     inline float SCREEN_WIDTH;
     inline float SCREEN_HEIGHT;
+
+    inline float window_movment_speed = 0.02;
 
     inline float gravity = 0.5;
 

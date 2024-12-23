@@ -2,6 +2,7 @@
 #include "GAMESTATE.h"
 #include "window.h"
 #include <iostream>
+#include "utility.h"
 
 // Core functions
 
@@ -157,15 +158,8 @@ void Player::move() {
     bool y_collision_bottom = false;
 
     for (Rectangle i : GAMESTATE::platforms) {
-        // if ( ( ( (this->position.x > i.x) && (this->position.x < i.width) ) || ( (this->position.x + this->rectangle.width > i.x) && (this->position.x + this->rectangle.width < i.width) ) ) && ( ( (this->position.y > i.y)/*under top line*/ && (this->position.y < i.height)/*over bottom line*/ )/*with y*/ || ( (this->position.y + this->rectangle.height > i.y)/*under top line*/ && (this->position.y + this->rectangle.height < i.height)/*over bottom line*/ )/*with height*/  ) ) {
-        //     this->position.x = previous_position.x;
-        // }
-        
 
         if (CheckCollisionRecs(this->collision_rectangle, i)) {
-            // if ( ( (this->position.y + this->collision_rectangle.height / 2 < i.y) && (this->position.y + this->collision_rectangle.height / 2 < i.y) ) || ( (this->position.y + this->collision_rectangle.height / 2 > i.y) && (this->position.y + this->collision_rectangle.height / 2 > i.y) ) ) {
-                   // this->position.y = previous_position.y;
-            // }
 
             y_collision_bottom = (this->position.y < i.y);
 
