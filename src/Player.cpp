@@ -142,14 +142,14 @@ void Player::move() {
 
             std::cout << "X collision !" << std::endl;
 
-            /*if (this->collision_rectangle.x == this->position.x) {
-                if (this->position.x > i.x) {
-                    this->position.x += (i.x + i.width) - this->position.x;
-                }
-                else if (this->position.x <= i.x) {
-                    this->position.x -= (this->position.x + this->rectangle.width) - i.x;
-                }
-            }*/
+            // if (this->collision_rectangle.x == this->position.x) {
+            //     if (this->position.x > i.x + 1) {
+            //         this->position.x += (i.x + i.width) - this->position.x;
+            //     }
+            //     else if (this->position.x < i.x - 1) {
+            //         this->position.x -= (this->position.x + this->rectangle.width) - i.x;
+            //     }
+            // }
 
             this->collision_rectangle.x = this->position.x;
 
@@ -180,14 +180,17 @@ void Player::move() {
                 bottom_collision_offset = (collision_object_y_center /*225*/ - player_y_center /*279.5*/) + (this->rectangle.height / 2 /*27.5*/) + (i.height / 2 /*25*/);
 
 
-            /*if (this->collision_rectangle.y == this->position.y) {
+            if (this->collision_rectangle.y -.5 == this->position.y) {
+
+                std::cout << "no movment collision detected !" << std::endl;
+
                 if (this->position.y > i.y) {
-                    this->position.y += (i.y + i.height) - this->position.y;
+                    this->position.y += (i.y + i.height) - this->position.y - 1;
                 }
                 else if (this->position.y <= i.y) {
-                    this->position.y -= (this->position.y + this->rectangle.height) - i.y;
+                    this->position.y -= (this->position.y + this->rectangle.height) - i.y + 1;
                 }
-            }*/
+            }
 
 
             std::cout << "Bottom collision offset : " << bottom_collision_offset << std::endl;
@@ -234,6 +237,8 @@ void Player::move() {
     // Rectangle floor = GAMESTATE::CollisionObjects[0];
 
     std::cout << "Position : {x : " << this->position.x << "; y : " << this->position.y << "}, Velocity : {x : " << this->velocity.x << "; y : " << this->velocity.y << "}\nPlayer size : {width : " << this->rectangle.width << "; height : " << this->rectangle.height << "}" << std::endl;
+    std::cout << "Collision rect. position : {x : " << this->collision_rectangle.x << "; y : " << this->collision_rectangle.y << "};" << std::endl;
+
 
     window::update_window_geometry(*this);
 }

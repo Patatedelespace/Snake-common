@@ -20,6 +20,8 @@ Audio::SoundPlayer music;
 
 Player player;
 
+Texture2D dirt_texture;
+
 
 int main() {
     std::cout << "Hello, world!" << std::endl;
@@ -33,9 +35,20 @@ int main() {
     GAMESTATE::SCREEN_WIDTH = GetScreenWidth();
     GAMESTATE::SCREEN_HEIGHT = GetScreenHeight();
 
+    GAMESTATE::WINDOW_X = GetWindowPosition().x;
+    GAMESTATE::WINDOW_Y = GetWindowPosition().y;
+
+
     player = Player(LoadTexture(ASSETS_PATH"Player.png"));
 
+    dirt_texture = LoadTexture(ASSETS_PATH"Dirt.png");
+
     float player_scale_divisor = 16;
+
+    float dirt_texture_scale_divisor = 16;
+
+    dirt_texture.width /= dirt_texture_scale_divisor;
+    dirt_texture.height /= dirt_texture_scale_divisor;
 
     player.resize(player.getRectangle().width / player_scale_divisor, player.getRectangle().height / player_scale_divisor);
 
@@ -69,7 +82,7 @@ int main() {
 
         Rectangle floor = GAMESTATE::platforms[0];
 
-        //GAMESTATE::platforms[0] = {floor.x, floor.y - 1, floor.width, floor.height};
+        GAMESTATE::platforms[0] = {floor.x, floor.y - 1, floor.width, floor.height};
 
         BeginDrawing();
 
@@ -78,7 +91,8 @@ int main() {
         DrawTextureRec(player.getSprite(), player.getRectangle(), player.getPosition(), WHITE);
 
         for (Rectangle i : GAMESTATE::platforms) {
-            DrawRectangle(i.x, i.y, i.width, i.height, GREEN);
+            // DrawRectangle(i.x, i.y, i.width, i.height, GREEN);
+            DrawTextureRec(dirt_texture, (Rectangle) {0, 0, i.width, i.height}, (Vector2) {i.x, i.y}, WHITE);
         }
 
         DrawLineEx({player.getCollisionRectangle().x + player.getCollisionRectangle().width, player.getCollisionRectangle().y}, {player.getCollisionRectangle().x + player.getCollisionRectangle().width, player.getCollisionRectangle().y + player.getCollisionRectangle().height}, 1, RED);
