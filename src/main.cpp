@@ -1,6 +1,6 @@
 #include <raylib.h>
 
-// #include "window.h"
+#include "window.h"
 #include <cstdarg>
 #include "utility.h"
 #include "Player.h"
@@ -21,6 +21,8 @@ Audio::SoundPlayer music;
 Player player;
 
 Texture2D dirt_texture;
+
+std::thread window_movment_thread;
 
 
 int main() {
@@ -64,25 +66,27 @@ int main() {
 
     std::thread platform_generation_thread = std::thread(platform_generation_process);
 
+    window_movment_thread = std::thread(window::window_movment_process);
+
     while (!WindowShouldClose()) {
 
         // !IsSoundPlaying ? PlaySound(music) : nothing();
 
         player_process();
 
-        if (IsKeyPressed(KEY_S)) {
+        if (IsKeyPressed(KEY_S) && (IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL))) {
             music.stop();
         }
-        if (IsKeyPressed(KEY_P)) {
+        if (IsKeyPressed(KEY_P) && (IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL))) {
             music.play();
         }
-        if (IsKeyPressed(KEY_R)) {
+        if (IsKeyPressed(KEY_R) && (IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL))) {
             music.restart();
         }
 
         Rectangle floor = GAMESTATE::platforms[0];
 
-        GAMESTATE::platforms[0] = {floor.x, floor.y - 1, floor.width, floor.height};
+        // GAMESTATE::platforms[0] = {floor.x, floor.y - 1, floor.width, floor.height};
 
         BeginDrawing();
 
