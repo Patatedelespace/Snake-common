@@ -5,10 +5,10 @@ double utility::crop(double min, double max, double value) {
     return (value <= min) ? min : ((value >= max) ? max : value);
 }
 
-double utility::wheel(double min, double max, double value) {
-    double distance;
+void utility::wheel(float min, float max, float& value) {
+    float distance;
 
-    double return_value;
+    float return_value;
 
     if (value > max) {
         distance = value - max;
@@ -23,10 +23,10 @@ double utility::wheel(double min, double max, double value) {
     }
 
     if (return_value < min || return_value > max) {
-        return_value = utility::wheel(min, max, return_value);
+        utility::wheel(min, max, return_value);
     }
 
-    return return_value;
+    value = return_value;
 }
 
 double utility::absolute(double value) {

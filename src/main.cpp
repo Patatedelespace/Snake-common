@@ -103,7 +103,6 @@ int main() {
 
         EndDrawing();
 
-        std::cout << utility::wheel(0, 50, 55) << std::endl;
     }
 
     GAMESTATE::PLAYING = false;
@@ -178,34 +177,49 @@ void player_process() {
 
 void platform_generation_process() {
 
-    int timer = 2000;
+    int timer = 20000;
 
     std::random_device rd;
-    std::uniform_real_distribution<double> x_spacing_dist(-515.f, 515.f);
+    std::uniform_real_distribution<double> x_difference_dist(-515.f, 515.f);
+
     double max_height = -600;
     unsigned int last_platform_index = 1;
     double y_spacing = 150;
     double width = 150;
     double height = 15;
+    float x_max_spacing = (GAMESTATE::WINDOW_WIDTH - (150 * 3)) / 3;
+
+    std::uniform_real_distribution<float> x_spacing_dist(10.f, x_max_spacing);
 
     Rectangle last_platform;
-    double x_pos;
-    double y_pos;
+    float x_pos;
+    float y_pos;
+
+    float prev_x_pos;
+    float next_x_pos;
 
     while (GAMESTATE::PLAYING) {
         if (timer <= 0) {
             last_platform = GAMESTATE::platforms[last_platform_index];
 
-            x_pos = last_platform.x + x_spacing_dist(rd);
-            x_pos = utility::wheel(0, GAMESTATE::WINDOW_WIDTH, x_pos);
+            x_pos = last_platform.x + x_difference_dist(rd);
+            prev_x_pos = x_pos - (x_spacing_dist(rd) + 150);
+            next_x_pos = x_pos + (x_spacing_dist(rd) + 150);
+
+            utility::wheel(0, GAMESTATE::WINDOW_WIDTH, x_pos);
+            utility::wheel(0, GAMESTATE::WINDOW_WIDTH, prev_x_pos);
+            utility::wheel(0, GAMESTATE::WINDOW_WIDTH, next_x_pos);
+
             y_pos = last_platform.y - y_spacing;
             if (y_pos >= max_height) {
                 GAMESTATE::platforms.push_back(Rectangle(x_pos, y_pos, width, height));
+                GAMESTATE::platforms.push_back(Rectangle(prev_x_pos, y_pos, width, height));
+                GAMESTATE::platforms.push_back(Rectangle(next_x_pos, y_pos, width, height));
 
-                last_platform_index++;
+                last_platform_index += 3;
             }
 
-            timer = 2000;
+            timer = 20000;
         }
         else {
             timer--;
