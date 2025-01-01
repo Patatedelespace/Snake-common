@@ -1,5 +1,7 @@
 #include "Audio.h"
 
+#include <functional>
+
 Audio::Sound Audio::getMusic(std::string title) {
     for (Audio::Sound s : Audio::musics_list) {
         if (s.title == title) {
@@ -73,7 +75,7 @@ void Audio::SoundPlayer::restart() {
     else {
         PlaySound(this->current_sound.rl_sound);
     }
-    
+
     this->sound_state = STARTED;
 }
 
@@ -96,5 +98,5 @@ void Audio::SoundPlayer::player_process() {
             }
         }
     }
-    
+
 }

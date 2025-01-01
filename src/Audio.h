@@ -3,12 +3,13 @@
 #include <raylib.h>
 
 #include <cstdarg>
-#include "Player.h"
-#include "GAMESTATE.h"
-#include <iostream>
-#include <map>
+// #include "Player.h"
+// #include "GAMESTATE.h"
+// #include <iostream>
+// #include <map>
 #include <thread>
-#include <functional>
+#include <vector>
+// #include <functional>
 
 #ifndef ASSETS_PATH
 #define ASSETS_PATH "./assets/"

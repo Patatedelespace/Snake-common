@@ -12,7 +12,7 @@ namespace utility {
 
     double crop(double min, double max, double value);
 
-    double wheel(double min, double max, double value);
+    void wheel(float min, float max, float& value);
 
     double absolute(double value);
 

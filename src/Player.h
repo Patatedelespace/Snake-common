@@ -4,7 +4,6 @@
 #include <raylib.h>
 
 #include "GAMESTATE.h"
-#include "utility.h"
 
 
 class Player {
