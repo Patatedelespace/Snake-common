@@ -7,12 +7,13 @@
 // #include "GAMESTATE.h"
 // #include <iostream>
 // #include <map>
+#include <string>
 #include <thread>
 #include <vector>
 // #include <functional>
 
 #ifndef ASSETS_PATH
-#define ASSETS_PATH "./assets/"
+#define ASSETS_PATH ".\\assets\\"
 #endif
 
 

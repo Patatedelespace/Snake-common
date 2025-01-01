@@ -27,6 +27,7 @@ std::thread window_movment_thread;
 
 int main() {
     std::cout << "Hello, world!" << std::endl;
+    std::cout << "ASSETS_PATH : " << ASSETS_PATH << ";" << std::endl;
 
     InitAudioDevice();
 
@@ -177,7 +178,7 @@ void player_process() {
 
 void platform_generation_process() {
 
-    int timer = 20000;
+    int timer = 200000;
 
     std::random_device rd;
     std::uniform_real_distribution<double> x_difference_dist(-515.f, 515.f);
@@ -219,7 +220,7 @@ void platform_generation_process() {
                 last_platform_index += 3;
             }
 
-            timer = 20000;
+            timer = 200000;
         }
         else {
             timer--;
