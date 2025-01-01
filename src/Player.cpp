@@ -185,10 +185,10 @@ void Player::move() {
                 std::cout << "no movment collision detected !" << std::endl;
 
                 if (this->position.y > i.y) {
-                    this->position.y += (i.y + i.height) - this->position.y - 1;
+                    this->position.y += (i.y + i.height) - this->position.y - .5;
                 }
                 else if (this->position.y <= i.y) {
-                    this->position.y -= (this->position.y + this->rectangle.height) - i.y + 1;
+                    this->position.y -= (this->position.y + this->rectangle.height) - i.y + .5;
                 }
             }
 

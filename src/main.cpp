@@ -47,7 +47,7 @@ int main() {
 
     float player_scale_divisor = 16;
 
-    float dirt_texture_scale_divisor = 16;
+    float dirt_texture_scale_divisor = 32;
 
     dirt_texture.width /= dirt_texture_scale_divisor;
     dirt_texture.height /= dirt_texture_scale_divisor;
