@@ -10,6 +10,10 @@
 #include <thread>
 #include <functional>
 
+#ifndef ASSETS_PATH
+#define ASSETS_PATH "./assets/"
+#endif
+
 
 namespace Audio {
 
